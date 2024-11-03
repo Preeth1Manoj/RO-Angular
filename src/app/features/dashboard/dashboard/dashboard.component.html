@@ -1,0 +1,52 @@
+<mat-sidenav-container class="dashboard-container">
+    <mat-sidenav [opened]="isMenuOpen" mode="side" class="sidenav">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Logo" class="logo">
+        <h2>RO Dashboard</h2>
+      </div>
+  
+      <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard/profile" routerLinkActive="active">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </a>
+        <a mat-list-item routerLink="/dashboard/employees" routerLinkActive="active">
+          <mat-icon>people</mat-icon>
+          <span>My Employees</span>
+        </a>
+        <mat-divider></mat-divider>
+        <a mat-list-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <button mat-icon-button (click)="toggleMenu()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="toolbar-spacer"></span>
+        <button mat-button [matMenuTriggerFor]="userMenu">
+          <mat-icon>account_circle</mat-icon>
+          {{ user?.username }}
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item routerLink="/dashboard/profile">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </mat-toolbar>
+  
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

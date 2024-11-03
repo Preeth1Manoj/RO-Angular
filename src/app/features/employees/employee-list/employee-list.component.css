@@ -1,0 +1,23 @@
+.mat-card {
+    margin: 20px;
+  }
+  
+  .mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .mat-table {
+    width: 100%;
+  }
+  
+  .mat-column-actions {
+    width: 80px;
+    text-align: center;
+  }
+  
+  .mat-row:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }

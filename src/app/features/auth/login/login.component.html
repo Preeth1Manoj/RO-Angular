@@ -1,0 +1,90 @@
+<!-- login.component.html -->
+<div class="login-container">
+    <div class="login-box">
+      <h1>RO Dashboard</h1>
+      <p>Sign in to your account</p>
+      
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input 
+            type="text" 
+            id="username"
+            name="username"
+            [(ngModel)]="loginData.username"
+            required>
+          <div class="invalid-feedback" *ngIf="submitted && !loginData.username">
+            Username is required
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-input">
+            <input 
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              [(ngModel)]="loginData.password"
+              required>
+            <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+          <div class="invalid-feedback" *ngIf="submitted && !loginData.password">
+            Password is required
+          </div>
+        </div>
+  
+        <div class="error-message" *ngIf="error">
+          {{ error }}
+        </div>
+  
+        <button type="submit" [disabled]="loading">
+          <span *ngIf="!loading">Sign in</span>
+          <span *ngIf="loading">Signing in...</span>
+        </button>
+      </form>
+    </div>
+  </div>// src/app/features/auth/login/login.component.html
+  <div class="login-container">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title>RO Dashboard Login</mat-card-title>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" required>
+            <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">
+              Username is required
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" 
+                   formControlName="password" required>
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
+              Password is required
+            </mat-error>
+          </mat-form-field>
+  
+          <div class="error-message" *ngIf="error">
+            {{ error }}
+          </div>
+  
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="loading || loginForm.invalid">
+            {{ loading ? 'Logging in...' : 'Login' }}
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

@@ -1,0 +1,52 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>My Employees</mat-card-title>
+      <button mat-raised-button color="primary" (click)="openAddEmployeeDialog()">
+        <mat-icon>add</mat-icon>
+        Add Employee
+      </button>
+    </mat-card-header>
+  
+    <mat-card-content>
+      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  
+      <table mat-table [dataSource]="employees" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let employee">{{employee.name}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let employee">{{employee.email}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="designation">
+          <th mat-header-cell *matHeaderCellDef>Designation</th>
+          <td mat-cell *matCellDef="let employee">{{employee.designation}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let employee">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="viewSkillAssessment(employee.id)">
+                <mat-icon>assessment</mat-icon>
+                <span>Skill Assessment</span>
+              </button>
+              <button mat-menu-item (click)="viewPerformance(employee.id)">
+                <mat-icon>trending_up</mat-icon>
+                <span>Performance</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>

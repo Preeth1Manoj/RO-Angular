@@ -1,0 +1,118 @@
+// src/app/features/dashboard/components/skill-assessment/skill-assessment.component.html
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Skill Assessment - {{employee?.name}}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="assessmentForm" (ngSubmit)="onSubmit()">
+      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+      <div class="form-row">
+        <mat-form-field>
+          <mat-label>Assessment Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="assessmentDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="InProgress">In Progress</mat-option>
+            <mat-option value="Accepted">Accepted</mat-option>
+            <mat-option value="Rejected">Rejected</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Technical Skills Section -->
+      <div class="skills-section">
+        <h3>Technical Skills
+          <button type="button" mat-mini-fab color="primary" (click)="addTechnicalSkill()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </h3>
+
+        <div formArrayName="technicalSkills">
+          <div *ngFor="let skill of assessmentForm.get('technicalSkills')['controls']; let i=index" 
+               [formGroupName]="i" class="skill-item">
+            <mat-form-field>
+              <mat-label>Skill Name</mat-label>
+              <input matInput formControlName="name" placeholder="Enter skill name">
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Proficiency Level</mat-label>
+              <mat-select formControlName="proficiencyLevel">
+                <mat-option *ngFor="let level of proficiencyLevels" [value]="level">
+                  {{level}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Comments</mat-label>
+              <textarea matInput formControlName="comments"></textarea>
+            </mat-form-field>
+
+            <button type="button" mat-icon-button color="warn" 
+                    (click)="removeSkill(assessmentForm.get('technicalSkills'), i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soft Skills Section -->
+      <div class="skills-section">
+        <h3>Soft Skills
+          <button type="button" mat-mini-fab color="primary" (click)="addSoftSkill()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </h3>
+
+        <div formArrayName="softSkills">
+          <div *ngFor="let skill of assessmentForm.get('softSkills')['controls']; let i=index" 
+               [formGroupName]="i" class="skill-item">
+            <mat-form-field>
+              <mat-label>Skill Name</mat-label>
+              <input matInput formControlName="name" placeholder="Enter skill name">
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Proficiency Level</mat-label>
+              <mat-select formControlName="proficiencyLevel">
+                <mat-option *ngFor="let level of proficiencyLevels" [value]="level">
+                  {{level}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Comments</mat-label>
+              <textarea matInput formControlName="comments"></textarea>
+            </mat-form-field>
+
+            <button type="button" mat-icon-button color="warn" 
+                    (click)="removeSkill(assessmentForm.get('softSkills'), i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <mat-form-field class="full-width">
+        <mat-label>Overall Comments</mat-label>
+        <textarea matInput formControlName="comments" rows="4"></textarea>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" 
+                [disabled]="assessmentForm.invalid || isLoading">
+          Save Assessment
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

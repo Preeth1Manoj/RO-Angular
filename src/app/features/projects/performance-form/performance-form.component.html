@@ -1,0 +1,104 @@
+// Continuing project-performance.component.html
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Project Performance - {{employee?.name}}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="performanceForm" (ngSubmit)="onSubmit()">
+      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+      <div class="form-grid">
+        <mat-form-field>
+          <mat-label>Project</mat-label>
+          <mat-select formControlName="projectId">
+            <mat-option *ngFor="let project of projects" [value]="project.id">
+              {{project.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="performanceForm.get('projectId')?.hasError('required')">
+            Project is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Delivery Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="deliveryDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="performanceForm.get('deliveryDate')?.hasError('required')">
+            Delivery date is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Organizational Activity</mat-label>
+          <input matInput formControlName="orgActivity">
+          <mat-error *ngIf="performanceForm.get('orgActivity')?.hasError('required')">
+            Organization activity is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Employee Engagement Score (0-100)</mat-label>
+          <input matInput type="number" formControlName="employeeEngagementScore">
+          <mat-error *ngIf="performanceForm.get('employeeEngagementScore')?.hasError('required')">
+            Engagement score is required
+          </mat-error>
+          <mat-error *ngIf="performanceForm.get('employeeEngagementScore')?.hasError('min') || 
+                           performanceForm.get('employeeEngagementScore')?.hasError('max')">
+            Score must be between 0 and 100
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Time Management Score (0-100)</mat-label>
+          <input matInput type="number" formControlName="timeManagementScore">
+          <mat-error *ngIf="performanceForm.get('timeManagementScore')?.hasError('required')">
+            Time management score is required
+          </mat-error>
+          <mat-error *ngIf="performanceForm.get('timeManagementScore')?.hasError('min') || 
+                           performanceForm.get('timeManagementScore')?.hasError('max')">
+            Score must be between 0 and 100
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Productivity Score (0-100)</mat-label>
+          <input matInput type="number" formControlName="productivityScore">
+          <mat-error *ngIf="performanceForm.get('productivityScore')?.hasError('required')">
+            Productivity score is required
+          </mat-error>
+          <mat-error *ngIf="performanceForm.get('productivityScore')?.hasError('min') || 
+                           performanceForm.get('productivityScore')?.hasError('max')">
+            Score must be between 0 and 100
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="full-width">
+        <mat-label>Development Plan</mat-label>
+        <textarea matInput rows="4" formControlName="developmentPlan"></textarea>
+        <mat-error *ngIf="performanceForm.get('developmentPlan')?.hasError('required')">
+          Development plan is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Additional Comments</mat-label>
+        <textarea matInput rows="4" formControlName="comments"></textarea>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-button type="button" routerLink="/dashboard/employees">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" 
+                [disabled]="performanceForm.invalid || isLoading">
+          Save Performance Record
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+
+
